@@ -14,8 +14,19 @@ module register(
 
     reg [31:0] int_data [31:0];
 
-    always@(*) begin
-        
+    assign rd_dataA = int_data[rd_addrA];
+    assign rd_dataB = int_data[rd_addrB];
+
+    always@(posedge clk) begin
+      if(!nrst) begin
+        int i;
+        for (i = 0; i < 32; i = i+1) begin
+          int_data[i] <= 0;
+        end
+      end else begin
+        if (wr_en)
+          int_data[wr_addr] <= wr_data;
+      end
     end
 
 endmodule
